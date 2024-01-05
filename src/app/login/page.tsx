@@ -1,13 +1,7 @@
-"use client";
-
-import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
+import AuthButton from "@/components/AuthButton";
 
 export default function Login() {
-    const handleLogin = () => {
-        signIn("spotify");
-    };
-
     return (
         <div className="flex flex-col items-center justify-center w-screen h-screen gap-20">
             <Image
@@ -16,12 +10,7 @@ export default function Login() {
                 width={320}
                 height={96}
             />
-            <button
-                className="flex px-12 py-2 text-lg tracking-widest uppercase rounded-full focus:outline-none bg-primary hover:bg-opacity-80"
-                onClick={handleLogin}
-            >
-                Login
-            </button>
+            <AuthButton text="Login" authType="signin" classes="bg-green-700" />
         </div>
     );
 }
