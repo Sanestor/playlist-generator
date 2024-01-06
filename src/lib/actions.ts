@@ -6,8 +6,9 @@ import {
     Playlist,
     Track,
     TrackAnalysis,
+    Profile,
 } from "@/types/types";
-import { customGet } from "@/utils/serverUtils";
+import { customGet, customPost } from "@/utils/serverUtils";
 
 export const getNewReleases = async (
     session: AuthSession
@@ -45,11 +46,42 @@ export const getTopItems = async ({
     );
 };
 
+// create playlist
+export const createPlaylist = async ({
+    session,
+    userId,
+    name,
+    description,
+}: {
+    session: AuthSession;
+    userId: string;
+    name: string;
+    description: string;
+}): Promise<Playlist> => {
+    const data = await customPost(
+        `https://api.spotify.com/v1/users/${userId}/playlists`,
+        session,
+        JSON.stringify({
+            name: name,
+            public: true,
+            collaborative: false,
+            description: description,
+        })
+    );
+    return data;
+};
+
 export const getAlbumById = async (
     session: AuthSession,
     albumId: string
 ): Promise<Album> => {
     return customGet(`https://api.spotify.com/v1/albums/${albumId}`, session);
+};
+
+export const getUserProfile = async (
+    session: AuthSession
+): Promise<Profile> => {
+    return customGet(`https://api.spotify.com/v1/me`, session);
 };
 
 export const getArtistById = async (

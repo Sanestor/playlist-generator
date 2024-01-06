@@ -4,8 +4,10 @@ import {
     getNewReleases,
     getRecentlyPlayedTracks,
     getTopItems,
+    getUserProfile,
+    createPlaylist,
 } from "@/lib/actions";
-import { Artist, Track } from "@/types/types";
+import { Artist, Track, Profile, Playlist } from "@/types/types";
 import AuthButton from "@/components/AuthButton";
 import Image from "next/image";
 
@@ -32,6 +34,21 @@ export default async function Home() {
         type: "tracks",
     }).then((data) => data.items)) as Track[];
 
+    const profile = (await getUserProfile(session).then(
+        (data) => data
+    )) as Profile;
+
+    /*
+    // create a new playlist
+    const newPlaylist = (await createPlaylist({
+        session,
+        userId: profile.id,
+        name: "New Playlist Name 2",
+        description: "New playlist description 2.",
+    }).then((data) => data)) as Playlist;
+    console.log(newPlaylist);
+    */
+
     return (
         <main className="flex min-h-screen flex-col items-center justify-start gap-5 p-24">
             {session ? (
@@ -43,6 +60,9 @@ export default async function Home() {
                     />
                     <p>Logged in as:</p>
                     <p>{session.user.email}</p>
+                    <p className="w-full break-words">
+                        {JSON.stringify(session.user)}
+                    </p>
                     <section className="flex flex-col gap-10 w-full">
                         <p className="text-4xl">Your all time top tracks:</p>
                         {allTimeTopTracks.map((track, index) => (
