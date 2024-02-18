@@ -1,6 +1,7 @@
 import PlaylistCard from "@/components/PlaylistCard";
 import { getUserLikedPlaylists } from "@/lib/actions";
 import { getAuthSession } from "@/utils/serverUtils";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function ManagePlaylists() {
@@ -15,7 +16,9 @@ export default async function ManagePlaylists() {
   ));
 
   return (
-    <div className="flex flex-1 flex-col bg-black">
+    <div className="bg-black flex flex-col ">
+      <div className="m-4"><Link href={'/'} className="action-btn">Home</Link></div>
+      <div className="flex flex-col gap-4">
       {
         playlists.map(playlist => (
             <PlaylistCard playlist={playlist}/>
@@ -24,5 +27,7 @@ export default async function ManagePlaylists() {
       }
       
     </div>
+    </div>
+    
   )
 }
