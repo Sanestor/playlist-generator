@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { NextAuthProvider } from "@/providers/NextAuthProvider";
+import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "Playlist Generator",

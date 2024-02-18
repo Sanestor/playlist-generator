@@ -10,16 +10,21 @@ import {
 import { Artist, Track, Profile, Playlist } from "@/types/types";
 import AuthButton from "@/components/AuthButton";
 import Image from "next/image";
+import {redirect} from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default async function Home() {
     const session = await getAuthSession();
     if (!session) {
-        return {
-            redirect: {
-                destination: "/login",
-                permanent: false,
-            },
-        };
+      redirect('/login');
+      // return (
+      //     {
+      //       redirect: {
+      //           destination: "/login",
+      //           permanent: false,
+      //       },
+      //     }
+      //   );
     }
     const topTracks = (await getTopItems({
         session,
@@ -56,13 +61,16 @@ export default async function Home() {
                     <AuthButton
                         text="Logout"
                         authType="signout"
-                        classes="bg-red-500"
+                        classes="bg-dark-linear-gradient"
                     />
                     <p>Logged in as:</p>
                     <p>{session.user.email}</p>
                     <p className="w-full break-words">
                         {JSON.stringify(session.user)}
                     </p>
+                    <Link href={'/manage'} className="action-btn">
+                      Manage
+                    </Link>
                     <section className="flex flex-col gap-10 w-full">
                         <p className="text-4xl">Your all time top tracks:</p>
                         {allTimeTopTracks.map((track, index) => (
